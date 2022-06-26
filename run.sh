@@ -1,0 +1,3 @@
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/Users/sunjinlong01/CLionProjects/Python/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Users/sunjinlong01/CLionProjects/Python/
+clang++  main.cpp src/runtime/interpreter.cpp src/code/binaryFileParser.cpp src/object/pyString.cpp src/object/pyInteger.cpp src/object/pyObject.cpp src/runtime/universal.cpp src/container/bufferedInputStream.cpp src/code/codeObject.cpp src/container/arrayList.cpp src/object/klass.cpp src/runtime/frameObject.cpp src/object/functionObject.cpp -std=c++11 -o vm.out
