@@ -37,6 +37,7 @@ public:
                PyString * notable):
             _argcount(argcount),
             _nlocals(nlocals),
+            _stack_size(stack_size),
             _bytecodes(bytecodes),
             _consts(consts),
             _names(names),

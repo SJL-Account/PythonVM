@@ -28,12 +28,14 @@ public:
     static const unsigned char JUMP_ABSOLUTE = 113;
     static const unsigned char POP_JUMP_IF_FALSE = 114;
     static const unsigned char LOAD_GLOBAL = 116;
+    static const unsigned char LOAD_FAST = 124;
+    static const unsigned char STORE_FAST = 125;
     static const unsigned char CALL_FUNCTION = 131;
     static const unsigned char MAKE_FUNCTION = 132;
 };
 
 enum COMPAREOP{
-    LESS, LESS_EQUAL, EQUAL, NOT_EQUAL, GREATER, GREATER_EQUAL
+    LESS, LESS_EQUAL, EQUAL, NOT_EQUAL, GREATER, GREATER_EQUAL,IN, NOT_IN, IS,IS_NOT
 };
 
 #endif //PYTHON_BYTECODE_H

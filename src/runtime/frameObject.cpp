@@ -16,8 +16,6 @@ FrameObject::FrameObject(CodeObject *code) {
     _loop_stack = new ArrayList<Block*>();
     _local  = new Map<PyObject*, PyObject*>();
     _global = new Map<PyObject*, PyObject*>();
-    _build  = new Map<PyObject*, PyObject*>();
-    _fast   = new Map<PyObject*, PyObject*>();
     pc = 0;
     // 代码片段global用loval表初始化
     _global = _local;
@@ -34,13 +32,30 @@ FrameObject::FrameObject(FunctionObject * func) {
     _loop_stack = new ArrayList<Block*>();
     _local  = new Map<PyObject*, PyObject*>();
     _global = new Map<PyObject*, PyObject*>();
-    _build  = new Map<PyObject*, PyObject*>();
-    _fast   = new Map<PyObject*, PyObject*>();
     pc = 0;
     // 从上层模块继承下来的global变量表
     _global = func->global();
 }
 
+FrameObject::FrameObject(FunctionObject * func, ArrayList<PyObject* > * args){
+    CodeObject * code = func->_func_code;
+    int stack_size = code->_stack_size;
+    byte_codes = code->_bytecodes;
+    _names  = code->_names;
+    _consts = code->_consts;
+    _stack  = new ArrayList<PyObject*>(stack_size);
+    _loop_stack = new ArrayList<Block*>();
+    _local  = new Map<PyObject*, PyObject*>();
+    _global = new Map<PyObject*, PyObject*>();
+    _fast   = new ArrayList<PyObject *>();
+    int arg_cnt = args->length();
+    for(int i=0; i< arg_cnt; i++){
+        _fast->push(args->pop());
+    }
+    pc = 0;
+    // 从上层模块继承下来的global变量表
+    _global = func->global();
+}
 
 short FrameObject::get_op_arg() {
 

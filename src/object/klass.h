@@ -1,6 +1,7 @@
 //
 // Created by sunjinlong01 on 2022/6/23.
 //
+#include <stdio.h>
 #ifndef PYTHON_KLASS_H
 #define PYTHON_KLASS_H
 

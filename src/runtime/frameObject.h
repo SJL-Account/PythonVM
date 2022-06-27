@@ -29,16 +29,14 @@ public:
     Map<PyObject *, PyObject *> * _local;
     // 全局变量表
     Map<PyObject *, PyObject *> * _global;
-    // 内建变量表
-    Map<PyObject *, PyObject *> * _build;
     // 参数表
-    Map<PyObject *, PyObject *> * _fast;
+    ArrayList<PyObject *> * _fast;
     // 程序计数器
     int pc;
     // 构造
     FrameObject(CodeObject * code);
     FrameObject(FunctionObject * func);
-    FrameObject(FunctionObject * func, FrameObject * sender);
+    FrameObject(FunctionObject * func, ArrayList<PyObject* > * args);
     // 属性
     void set_pc(int p_pc){ pc = p_pc;};
     void set_sender(FrameObject * sender){_sender = sender;};
@@ -50,8 +48,7 @@ public:
     ArrayList<Block *> * loop_stack(){return _loop_stack;};
     Map<PyObject *, PyObject *> * local(){return _local;};
     Map<PyObject *, PyObject *> * global(){return _global;};
-    Map<PyObject *, PyObject *> * build(){return _build;};
-    Map<PyObject *, PyObject *> * fast(){return _fast;};
+    ArrayList<PyObject *> *  fast(){return _fast;};
     // 功能
     unsigned char get_op_code();
     short get_op_arg();

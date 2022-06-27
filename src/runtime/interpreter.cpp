@@ -18,14 +18,17 @@
 #define LEVEL() _frame->stack()->length()
 
 Interpreter::Interpreter() {
-
+    _build = new Map<PyObject *, PyObject *>();
+    _build->put(new PyString("True"), Universal::PyTrue);
+    _build->put(new PyString("False"), Universal::PyFalse);
+    _build->put(new PyString("None"), Universal::PyNone);
 }
 
-void Interpreter::build_frame(PyObject * x) {
+void Interpreter::build_frame(PyObject * x, ArrayList<PyObject *> * arg_list) {
 
     FrameObject * _new_frame;
     // 函数
-    _new_frame = new FrameObject((FunctionObject *)x);
+    _new_frame = new FrameObject((FunctionObject *)x, arg_list);
     _new_frame->set_sender(_frame);
     // 方法
     _frame = _new_frame;
@@ -75,11 +78,18 @@ void Interpreter::eval_frame() {
         }
         
         PyObject * const_ptr, * name_ptr, * code_ptr, * func_ptr, * reval_ptr;
+        ArrayList<PyObject *> * arg_list;
         FunctionObject * fo;
         PyObject * v, * w,  * u; // 操作数1， 操作数2， 操作数3
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::LOAD_FAST:
+                PUSH(_frame->_fast->get(op_arg));
+                break;
+            case ByteCode::STORE_FAST:
+                _frame->_fast->set(op_arg, POP());
+                break;
             case ByteCode::LOAD_GLOBAL:
                 // op_arg为符号表中下标
                 name_ptr = _frame->names()->get(op_arg);
@@ -105,6 +115,7 @@ void Interpreter::eval_frame() {
                 name_ptr = _frame->names()->get(op_arg);
                 // 从局部变量中提取变量值
                 const_ptr = _frame->local()->get(name_ptr);
+                //(const_ptr->is_not(Universal::PyNone) == Universal::PyTrue)
                 if (const_ptr != Universal::PyNone){
                     // 入栈
                     PUSH(const_ptr);
@@ -112,7 +123,13 @@ void Interpreter::eval_frame() {
                 }
                 // 从全局变量中提取变量值
                 const_ptr = _frame->global()->get(name_ptr);
-                if (code_ptr != Universal::PyNone){
+                if (const_ptr != Universal::PyNone){
+                    PUSH(const_ptr);
+                    break;
+                }
+                // 从build变量中提取变量值
+                const_ptr = _build->get(name_ptr);
+                if (const_ptr != Universal::PyNone){
                     PUSH(const_ptr);
                     break;
                 }
@@ -146,6 +163,12 @@ void Interpreter::eval_frame() {
                         PUSH(w->greater(v));
                         break;
                     case COMPAREOP ::GREATER_EQUAL:
+                        break;
+                    case COMPAREOP ::IS:
+                        PUSH(w->is(v));
+                        break;
+                    case COMPAREOP ::IS_NOT:
+                        PUSH(w->is(v));
                         break;
                     default:
                         throw op_arg;
@@ -186,6 +209,12 @@ void Interpreter::eval_frame() {
                 }
                 break;
             case ByteCode::MAKE_FUNCTION:
+                // 函数和栈帧的区别：
+                // 1.函数是静态的，是代码执行片段，执行期间变量无活动，只读，
+                // 2.栈帧时动态的，在调用时确定动态确定，执行期间内部变量有活动
+                // 3.全局变量在定义时确定
+                // 4.参数在调用时确定
+
                 // 获取函数code对象
                 code_ptr = POP();
                 // 创建函数对象
@@ -198,8 +227,17 @@ void Interpreter::eval_frame() {
             case ByteCode::CALL_FUNCTION:
                 // 获取函数对象
                 func_ptr = POP();
+                if (op_arg > 0){
+                    arg_list = new ArrayList<PyObject *>(op_arg);
+                    while (op_arg--){
+                        arg_list->push(POP());
+                    }
+                }
                 // 切换frame
-                build_frame(func_ptr);
+                build_frame(func_ptr, arg_list);
+                if (arg_list!=NULL){
+                    delete arg_list;
+                }
                 break;
             case ByteCode::RETURN_VALUE:
                 // 获取返回值

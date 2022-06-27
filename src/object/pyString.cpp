@@ -88,6 +88,7 @@ PyObject *StringKlass::mod(PyObject *x, PyObject *y) {
 
 PyString::PyString(const char *s) {
     int m = strlen(s);
+    _length = m;
     _value = new char[m];
     strcpy(_value, s);
     set_klass(StringKlass::get_instance());

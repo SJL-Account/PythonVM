@@ -25,6 +25,8 @@ public:
     PyObject * not_equal(PyObject * x);
     PyObject * greater(PyObject * x);
     PyObject * greater_equal(PyObject * x);
+    PyObject * is(PyObject * x);
+    PyObject * is_not(PyObject * x);
 };
 
 #endif //PYTHON_PYOBJECT_H

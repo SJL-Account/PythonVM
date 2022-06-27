@@ -141,7 +141,7 @@ ArrayList<PyObject *> *  BinaryFileParser::get_tuple() {
                 break;
                 // None
             case 'N':
-                list->push(NULL);
+                list->push(Universal::PyNone);
                 break;
                 // string (put string table)
             case 't':

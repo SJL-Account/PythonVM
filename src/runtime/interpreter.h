@@ -14,10 +14,11 @@ class Interpreter{
 private:
     FrameObject * _frame;
     CodeObject * code;
+    Map<PyObject *, PyObject *> * _build;
 public:
     Interpreter();
     void run(CodeObject * code);
-    void build_frame(PyObject * x);
+    void build_frame(PyObject * x, ArrayList<PyObject *> * arg_list);
     void eval_frame();
     void leave_frame(PyObject * ret_value);
     void destroy_frame();

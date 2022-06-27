@@ -1,4 +1,5 @@
 
+#include "src/runtime/universal.h"
 #include "src/object/pyObject.h"
 
 
@@ -48,4 +49,12 @@ PyObject * PyObject::greater(PyObject * x){
 
 PyObject * PyObject::greater_equal(PyObject * x){
     return _klass->greater_equal(this, x);
+}
+
+PyObject * PyObject::is(PyObject * x){
+    return (this == x)? Universal::PyTrue: Universal::PyFalse;
+}
+
+PyObject * PyObject::is_not(PyObject * x){
+    return (this != x)? Universal::PyTrue: Universal::PyFalse;
 }
