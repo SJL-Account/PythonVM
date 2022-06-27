@@ -75,10 +75,23 @@ void Interpreter::eval_frame() {
         }
         
         PyObject * const_ptr, * name_ptr, * code_ptr, * func_ptr, * reval_ptr;
+        FunctionObject * fo;
         PyObject * v, * w,  * u; // 操作数1， 操作数2， 操作数3
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::LOAD_GLOBAL:
+                // op_arg为符号表中下标
+                name_ptr = _frame->names()->get(op_arg);
+                const_ptr = _frame->global()->get(name_ptr);
+                PUSH(const_ptr);
+                break;
+            case ByteCode::STORE_GLOBAL:
+                v = POP();
+                // op_arg为符号表中下标
+                name_ptr = _frame->names()->get(op_arg);
+                _frame->global()->put(name_ptr, v);
+                break;
             case ByteCode::STORE_NAME:
                 // fecth 栈顶元素
                 v = POP();
@@ -87,12 +100,23 @@ void Interpreter::eval_frame() {
                 _frame->local()->put(name_ptr, v);
                 break;
             case ByteCode::LOAD_NAME:
+                // LEGB原则： Local -> Enclosing -> Global -> BuildIn
                 // 从符号表中提取字符
                 name_ptr = _frame->names()->get(op_arg);
                 // 从局部变量中提取变量值
                 const_ptr = _frame->local()->get(name_ptr);
-                // 入栈
-                PUSH(const_ptr);
+                if (const_ptr != Universal::PyNone){
+                    // 入栈
+                    PUSH(const_ptr);
+                    break;
+                }
+                // 从全局变量中提取变量值
+                const_ptr = _frame->global()->get(name_ptr);
+                if (code_ptr != Universal::PyNone){
+                    PUSH(const_ptr);
+                    break;
+                }
+                PUSH(Universal::PyNone);
                 break;
             case ByteCode::LOAD_CONST:
                 // 从常量表中提取数值
@@ -165,9 +189,11 @@ void Interpreter::eval_frame() {
                 // 获取函数code对象
                 code_ptr = POP();
                 // 创建函数对象
-                func_ptr = new FunctionObject(code_ptr);
+                fo = new FunctionObject(code_ptr);
+                // 对象定义时，global表就已经确定了
+                fo-> set_global(_frame->global());
                 // 入栈
-                PUSH(func_ptr);
+                PUSH(fo);
                 break;
             case ByteCode::CALL_FUNCTION:
                 // 获取函数对象

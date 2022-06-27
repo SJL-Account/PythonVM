@@ -15,7 +15,7 @@ public:
     int _stack_size;
     int _flag;
     PyString * _bytecodes;
-    ArrayList<PyObject*> *_consts;
+    ArrayList<PyObject*> * _consts;
     ArrayList<PyObject*> * _names;
     ArrayList<PyObject*> * _varnames;
     ArrayList<PyObject*> * _freevars;

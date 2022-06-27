@@ -2,7 +2,7 @@
 // Created by sunjinlong01 on 2022/6/24.
 //
 
-
+#include "src/container/map.h"
 #include "src/code/codeObject.h"
 #include "src/object/pyObject.h"
 #include "src/object/klass.h"
@@ -22,6 +22,14 @@ public:
 class FunctionObject:public PyObject{
 
 public:
+    // 局部变量表
+    Map<PyObject *, PyObject *> * _local;
+    // 全局变量表
+    Map<PyObject *, PyObject *> * _global;
+    // 内建变量表
+    Map<PyObject *, PyObject *> * _build;
+    // 参数表
+    Map<PyObject *, PyObject *> * _fast;
     // 函数的code对象
     CodeObject * _func_code;
     // 函数名
@@ -31,6 +39,9 @@ public:
     // 构造
     FunctionObject();
     FunctionObject(PyObject * x);
+    // 属性
+    void set_global(Map<PyObject*, PyObject *> * x ){_global = x;};
+    Map<PyObject*, PyObject *> * global(){return _global;}
 
 };
 

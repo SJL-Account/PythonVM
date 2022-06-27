@@ -18,6 +18,8 @@ public:
     static const unsigned char POP_BLOCK = 87;
     static const unsigned char HAVE_ARG = 90;
     static const unsigned char STORE_NAME = 90;
+    static const unsigned char STORE_GLOBAL =97;
+    static const unsigned char DELETE_GLOBAL =98;
     static const unsigned char LOAD_CONST = 100;
     static const unsigned char LOAD_NAME = 101;
     static const unsigned char COMPARE_OP = 107;
@@ -25,6 +27,7 @@ public:
     static const unsigned char SETUP_LOOP = 120;
     static const unsigned char JUMP_ABSOLUTE = 113;
     static const unsigned char POP_JUMP_IF_FALSE = 114;
+    static const unsigned char LOAD_GLOBAL = 116;
     static const unsigned char CALL_FUNCTION = 131;
     static const unsigned char MAKE_FUNCTION = 132;
 };

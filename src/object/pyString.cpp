@@ -42,6 +42,8 @@ PyObject *StringKlass::equal(PyObject *x, PyObject *y) {
     if (x == NULL || y == NULL){
         return Universal::PyFalse;
     }
+    if ((((PyString *)y)->length()) != (((PyString *)x)->length()))
+        return Universal::PyFalse;
 
     char * cmp_str = ((PyString *)y)->value();
     for(int i=0; i<((PyString *)x)->length(); i++){
