@@ -47,10 +47,21 @@ FrameObject::FrameObject(FunctionObject * func, ArrayList<PyObject* > * args){
     _loop_stack = new ArrayList<Block*>();
     _local  = new Map<PyObject*, PyObject*>();
     _global = new Map<PyObject*, PyObject*>();
+    // 局部参数表
+    int fast_cnt = code->_argcount;
     _fast   = new ArrayList<PyObject *>();
+    // 默认参数表
+    _default = func->get_default();
+    int default_cnt = func->get_default()->length();
+    // 无默认参数表
     int arg_cnt = args->length();
+
+    // 构造fast表
+    while ((default_cnt--) > 0){
+        _fast->set((--fast_cnt), _default->pop());
+    }
     for(int i=0; i< arg_cnt; i++){
-        _fast->push(args->pop());
+        _fast->set(i, args->pop());
     }
     pc = 0;
     // 从上层模块继承下来的global变量表

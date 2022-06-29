@@ -31,9 +31,9 @@ public:
 template <typename T>
 ArrayList<T>::ArrayList(int n) {
 
-    _array = new T[n];
-    for (int i = 0; i < n; i++ ) _array[i] = 0;
     _size = n;
+    _array = new T[_size];
+    for (int i = 0; i < _size; i++ ) _array[i] = 0;
     _length = 0;
 }
 
@@ -48,18 +48,19 @@ T ArrayList<T>::get(int index) {
 template <typename T>
 void ArrayList<T>::set(int index, T t) {
 
-    if (index < _length){
-        _array[index] = t;
+    while (_size <= index){
+        expand();
     }
-    // raise exception
-    throw index;
+    _array[index] = t;
+    if (index > _length) _length=index+1;
 }
 
 template <typename T>
 void ArrayList<T>::insert(int index, T t) {
 
-    if ((_length + 1 ) > _size) expand();
-
+    if (_length >= _size){
+        expand();
+    }
     for(int i = index; i < _length; i++)
         _array[index + 1] = _array[index];
     _array[index] = t;
@@ -84,7 +85,9 @@ T ArrayList<T>::pop(){
 
 template <typename T>
 void ArrayList<T>::push(T t){
-    if ((_length + 1 ) > _size) expand();
+    if (_length >= _size){
+        expand();
+    }
     _array[_length++] = t;
     // raise exception
 }

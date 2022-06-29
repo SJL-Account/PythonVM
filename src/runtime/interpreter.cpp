@@ -219,24 +219,31 @@ void Interpreter::eval_frame() {
                 code_ptr = POP();
                 // 创建函数对象
                 fo = new FunctionObject(code_ptr);
+                arg_list = new ArrayList<PyObject *>(op_arg);
+                while (op_arg --){
+                    arg_list->set(op_arg, POP());
+                }
                 // 对象定义时，global表就已经确定了
                 fo-> set_global(_frame->global());
+                fo->set_default(arg_list);
                 // 入栈
                 PUSH(fo);
                 break;
             case ByteCode::CALL_FUNCTION:
                 // 获取函数对象
-                func_ptr = POP();
                 if (op_arg > 0){
                     arg_list = new ArrayList<PyObject *>(op_arg);
                     while (op_arg--){
                         arg_list->push(POP());
                     }
                 }
+                func_ptr = POP();
                 // 切换frame
                 build_frame(func_ptr, arg_list);
                 if (arg_list!=NULL){
                     delete arg_list;
+                    arg_list = NULL;
+
                 }
                 break;
             case ByteCode::RETURN_VALUE:

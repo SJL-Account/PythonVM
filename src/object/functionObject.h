@@ -29,7 +29,9 @@ public:
     // 内建变量表
     Map<PyObject *, PyObject *> * _build;
     // 参数表
-    Map<PyObject *, PyObject *> * _fast;
+    ArrayList<PyObject *> * _fast;
+    // 默认参数表
+    ArrayList<PyObject *> * _default;
     // 函数的code对象
     CodeObject * _func_code;
     // 函数名
@@ -41,7 +43,10 @@ public:
     FunctionObject(PyObject * x);
     // 属性
     void set_global(Map<PyObject*, PyObject *> * x ){_global = x;};
+    void set_default(ArrayList<PyObject *> * x){_default = x;};
     Map<PyObject*, PyObject *> * global(){return _global;}
+    ArrayList<PyObject *>  * get_default(){return _default;}
+
 
 };
 

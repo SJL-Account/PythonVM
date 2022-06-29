@@ -31,6 +31,8 @@ public:
     Map<PyObject *, PyObject *> * _global;
     // 参数表
     ArrayList<PyObject *> * _fast;
+    // 默认参数表
+    ArrayList<PyObject *> * _default;
     // 程序计数器
     int pc;
     // 构造
