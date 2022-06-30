@@ -18,10 +18,13 @@ public:
     static const unsigned char POP_BLOCK = 87;
     static const unsigned char HAVE_ARG = 90;
     static const unsigned char STORE_NAME = 90;
+    static const unsigned char STORE_ATTR = 95;
+    static const unsigned char DELETE_ATTR =96;
     static const unsigned char STORE_GLOBAL =97;
     static const unsigned char DELETE_GLOBAL =98;
     static const unsigned char LOAD_CONST = 100;
     static const unsigned char LOAD_NAME = 101;
+    static const unsigned char LOAD_ATTR = 106;
     static const unsigned char COMPARE_OP = 107;
     static const unsigned char JUMP_FORWARD = 110;
     static const unsigned char SETUP_LOOP = 120;

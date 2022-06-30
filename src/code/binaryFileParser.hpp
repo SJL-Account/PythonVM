@@ -36,7 +36,4 @@ public:
 
 };
 
-
-
-
 #endif //PYTHON_BINARYFILEPARSER_H

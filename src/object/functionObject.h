@@ -10,7 +10,6 @@
 #ifndef PYTHON_FUNCTIONOBJECT_H
 #define PYTHON_FUNCTIONOBJECT_H
 
-
 class FunctionKlass: public Klass {
 private:
     FunctionKlass();
@@ -50,6 +49,22 @@ public:
 
 };
 
+
+class MethodKlass: public Klass {
+private:
+    MethodKlass();
+    static MethodKlass *instance;
+public:
+    static Klass *get_instance();
+};
+
+class MethodObject :public FunctionObject{
+
+public:
+    PyObject * _owner;
+    void set_owner(PyObject * x){_owner=x;};
+    PyObject * owner();
+};
 
 
 #endif //PYTHON_FUNCTIONOBJECT_H

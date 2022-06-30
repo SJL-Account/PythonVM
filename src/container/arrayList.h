@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include "src/object/pyObject.h"
 #ifndef PYTHON_ARRAYLIST_H
 #define PYTHON_ARRAYLIST_H
 
@@ -103,5 +102,4 @@ void ArrayList<T>::print(){
     for (int i = 0; i < _length; i++ ) std::cout<<_array[i]<<std::endl;
 }
 
-class PyObject;
 #endif //PYTHON_ARRAYLIST_H

@@ -84,6 +84,10 @@ void Interpreter::eval_frame() {
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::LOAD_ATTR:
+                break;
+            case ByteCode::STORE_ATTR:
+                break;
             case ByteCode::LOAD_FAST:
                 PUSH(_frame->_fast->get(op_arg));
                 break;

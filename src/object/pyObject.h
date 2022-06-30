@@ -1,12 +1,13 @@
 //
 // Created by sunjinlong01 on 2022/6/7.
 //
+
 #include <cassert>
 #include <stdlib.h>
 #include "src/object/klass.h"
+
 #ifndef PYTHON_PYOBJECT_H
 #define PYTHON_PYOBJECT_H
-
 
 class PyObject{
 public:
@@ -14,6 +15,7 @@ public:
     void set_klass(Klass* k){_klass = k;};
     Klass * klass(){assert(_klass == NULL); return _klass;}
     void print();
+    PyObject * get_attr(PyObject * attr);
     PyObject * add(PyObject * x);
     PyObject * sub(PyObject * x);
     PyObject * mul(PyObject * x);

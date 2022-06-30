@@ -13,6 +13,19 @@ Klass* FunctionKlass::get_instance(){
     return instance;
 }
 
+MethodKlass * MethodKlass::instance = NULL;
+
+Klass* MethodKlass::get_instance(){
+    if (instance == NULL){
+        instance = new MethodKlass();
+    }
+    return instance;
+}
+
+MethodKlass::MethodKlass(){
+
+}
+
 FunctionKlass::FunctionKlass(){
 
 }

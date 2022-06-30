@@ -1,7 +1,12 @@
 
 #include "src/runtime/universal.h"
 #include "src/object/pyObject.h"
+#include "src/object/pyDict.h"
 
+PyObject * PyObject::get_attr(PyObject *attr) {
+
+    return klass()->attr_dict()->get(attr);
+}
 
 void PyObject::print() {
     _klass->print(this);

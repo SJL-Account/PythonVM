@@ -1,20 +1,27 @@
 //
 // Created by sunjinlong01 on 2022/6/23.
 //
-#include <stdio.h>
+
 #ifndef PYTHON_KLASS_H
 #define PYTHON_KLASS_H
+#include <stdio.h>
+#include "src/container/arrayList.h"
 
+// 上层引用底层，用声明的方式
 class PyObject;
 class PyString;
+class PyDict;
 
 class Klass{
 private:
     PyString * _name;
-public:
+    PyDict * _attr_dict;
 
+public:
     // 属性
     void set_name(PyString * name){_name = name;};
+    void set_attr_dict(PyDict* attr_dict){ _attr_dict = attr_dict;};
+    PyDict * attr_dict(){return _attr_dict;};
     PyString * name(){ return _name;};
     // 功能
     virtual void print(PyObject * x){};
