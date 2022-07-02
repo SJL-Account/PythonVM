@@ -16,6 +16,7 @@ public:
     Klass * klass(){assert(_klass == NULL); return _klass;}
     void print();
     PyObject * get_attr(PyObject * attr);
+    void set_attr(PyObject * owner, PyObject * attr);
     PyObject * add(PyObject * x);
     PyObject * sub(PyObject * x);
     PyObject * mul(PyObject * x);
