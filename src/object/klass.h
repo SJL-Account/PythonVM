@@ -26,6 +26,7 @@ public:
     // 功能
     virtual void print(PyObject * x){};
     // 运算
+    // virtual PyObject* len(PyObject * x){return 0;};
     virtual PyObject* less(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* less_equal(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* equal(PyObject * x, PyObject * y){return 0;};

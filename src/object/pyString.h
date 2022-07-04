@@ -43,6 +43,7 @@ public:
     char * value() {return _value; };
     // 功能
     void print ();
+    PyObject * len();
     // 运算
     PyObject * add(PyObject * x);
     PyObject * equal(PyObject * x) ;

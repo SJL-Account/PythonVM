@@ -4,6 +4,7 @@
 #include "src/runtime/universal.h"
 #include "src/object/pyObject.h"
 #include "src/object/pyString.h"
+#include "src/object/pyInteger.h"
 
 StringKlass * StringKlass::instance = NULL;
 
@@ -112,6 +113,11 @@ PyObject * PyString::add(PyObject * x) {
 PyObject * PyString::equal(PyObject *x) {
 
     return _klass->equal(this, x);
+}
+
+PyObject * PyString::len(){
+
+    new PyInteger(_length);
 }
 
 void PyString::print(){

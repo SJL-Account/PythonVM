@@ -37,6 +37,7 @@ public:
     int _value;
     PyInteger(int value);
     void print ();
+    PyObject * len();
     PyObject * add(PyObject * x);
     PyObject * sub(PyObject * x);
     PyObject * mul(PyObject * x);

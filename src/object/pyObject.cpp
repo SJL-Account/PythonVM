@@ -3,6 +3,11 @@
 #include "src/object/pyObject.h"
 #include "src/object/pyDict.h"
 
+PyObject * PyObject::len() {
+
+    return Universal::PyNone;
+}
+
 PyObject * PyObject::get_attr(PyObject *attr) {
 
     return klass()->attr_dict()->get(attr);
@@ -13,7 +18,6 @@ void PyObject::set_attr(PyObject * owner, PyObject * attr){
     klass()->attr_dict()->put(owner, attr);
 
 }
-
 
 void PyObject::print() {
     _klass->print(this);

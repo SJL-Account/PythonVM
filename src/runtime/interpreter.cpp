@@ -22,16 +22,22 @@ Interpreter::Interpreter() {
     _build->put(new PyString("True"), Universal::PyTrue);
     _build->put(new PyString("False"), Universal::PyFalse);
     _build->put(new PyString("None"), Universal::PyNone);
+    _build->put(new PyString("len"), new FunctionObject(len));
 }
 
 void Interpreter::build_frame(PyObject * x, ArrayList<PyObject *> * arg_list) {
 
-    FrameObject * _new_frame;
-    // 函数
-    _new_frame = new FrameObject((FunctionObject *)x, arg_list);
-    _new_frame->set_sender(_frame);
-    // 方法
-    _frame = _new_frame;
+    if (x->klass() == NativeFunctionKlass::get_instance()){
+        PUSH(((FunctionObject *)x)->call(arg_list));
+    } else if (x->klass() == FunctionKlass::get_instance()){
+        FrameObject * _new_frame;
+        // 函数
+        _new_frame = new FrameObject((FunctionObject *)x, arg_list);
+        _new_frame->set_sender(_frame);
+        // 方法
+        _frame = _new_frame;
+    }
+
 
 }
 

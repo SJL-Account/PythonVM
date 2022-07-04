@@ -205,3 +205,8 @@ PyObject * PyInteger::greater_equal(PyObject * x) {
 
     return this->_klass->greater_equal(this, x);
 }
+
+PyObject * PyInteger::len() {
+
+    return 0;
+}
