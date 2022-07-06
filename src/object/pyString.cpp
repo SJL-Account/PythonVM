@@ -19,6 +19,12 @@ StringKlass::StringKlass() {
 
 }
 
+PyObject * StringKlass::len(PyObject * x){
+
+    assert(x->_klass == this->instance);
+    return new PyInteger(((PyString *) x)->length());
+}
+
 void StringKlass::print(PyObject *x) {
 
     assert(x->_klass == this->instance);
@@ -54,6 +60,7 @@ PyObject *StringKlass::equal(PyObject *x, PyObject *y) {
     }
     return Universal::PyTrue;
 }
+
 
 PyObject *StringKlass::not_equal(PyObject *x, PyObject *y) {
     return Klass::not_equal(x, y);
@@ -117,10 +124,10 @@ PyObject * PyString::equal(PyObject *x) {
 
 PyObject * PyString::len(){
 
-    new PyInteger(_length);
+    return klass()->len(this);
 }
 
 void PyString::print(){
 
-    _klass->print(this);
+    klass()->print(this);
 };

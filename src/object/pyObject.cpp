@@ -1,22 +1,26 @@
 
 #include "src/runtime/universal.h"
 #include "src/object/pyObject.h"
+#include "src/object/functionObject.h"
 #include "src/object/pyDict.h"
 
 PyObject * PyObject::len() {
 
-    return Universal::PyNone;
+    return _klass->len(this);
 }
 
 PyObject * PyObject::get_attr(PyObject *attr) {
 
-    return klass()->attr_dict()->get(attr);
+    PyObject * result = _klass->attr_dict()->get(attr);
+    if (result->is_function()){
+        result = new MethodObject((FunctionObject*)result, this);
+    }
+    return result;
 }
 
 void PyObject::set_attr(PyObject * owner, PyObject * attr){
 
-    klass()->attr_dict()->put(owner, attr);
-
+    _klass->attr_dict()->put(owner, attr);
 }
 
 void PyObject::print() {
@@ -73,4 +77,9 @@ PyObject * PyObject::is(PyObject * x){
 
 PyObject * PyObject::is_not(PyObject * x){
     return (this != x)? Universal::PyTrue: Universal::PyFalse;
+}
+
+bool PyObject::is_function() {
+
+    return _klass == NativeFunctionKlass::get_instance();
 }

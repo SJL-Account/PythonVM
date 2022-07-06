@@ -15,6 +15,7 @@ public:
     // 功能
     virtual void print(PyObject * x);
     // 运算
+    virtual PyObject* len(PyObject * x);
     virtual PyObject* less(PyObject * x, PyObject * y);
     virtual PyObject* less_equal(PyObject * x, PyObject * y);
     virtual PyObject* equal(PyObject * x, PyObject * y);
@@ -41,6 +42,8 @@ public:
     // 属性
     int length () {return _length; };
     char * value() {return _value; };
+    void set_klass(Klass* k){_klass = k;};
+    Klass * klass(){assert(_klass == NULL); return _klass;}
     // 功能
     void print ();
     PyObject * len();

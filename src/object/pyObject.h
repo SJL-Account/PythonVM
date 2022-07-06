@@ -11,13 +11,17 @@
 
 class PyObject{
 public:
+    // 属性
     Klass * _klass;
     void set_klass(Klass* k){_klass = k;};
     Klass * klass(){assert(_klass == NULL); return _klass;}
+    // 功能
     void print();
     PyObject * len();
     PyObject * get_attr(PyObject * attr);
+    bool is_function();
     void set_attr(PyObject * owner, PyObject * attr);
+    // 运算
     PyObject * add(PyObject * x);
     PyObject * sub(PyObject * x);
     PyObject * mul(PyObject * x);

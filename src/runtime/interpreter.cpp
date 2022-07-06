@@ -27,17 +27,23 @@ Interpreter::Interpreter() {
 
 void Interpreter::build_frame(PyObject * x, ArrayList<PyObject *> * arg_list) {
 
-    if (x->klass() == NativeFunctionKlass::get_instance()){
+    // native 函数
+    if (((FunctionObject * )x)->_klass == NativeFunctionKlass::get_instance()){
         PUSH(((FunctionObject *)x)->call(arg_list));
-    } else if (x->klass() == FunctionKlass::get_instance()){
+    // 函数
+    } else if (x->_klass == FunctionKlass::get_instance()){
         FrameObject * _new_frame;
-        // 函数
         _new_frame = new FrameObject((FunctionObject *)x, arg_list);
         _new_frame->set_sender(_frame);
-        // 方法
         _frame = _new_frame;
+    // 方法
+    } else if(x->_klass== MethodKlass::get_instance()){
+        if (arg_list == NULL){
+            arg_list = new ArrayList<PyObject*>(1);
+        }
+        arg_list->push(((MethodObject*)x)->_owner);
+        build_frame(((MethodObject*)x)->_func, arg_list);
     }
-
 
 }
 
@@ -84,13 +90,16 @@ void Interpreter::eval_frame() {
         }
         
         PyObject * const_ptr, * name_ptr, * code_ptr, * func_ptr, * reval_ptr;
-        ArrayList<PyObject *> * arg_list;
+        ArrayList<PyObject *> * arg_list(NULL);
         FunctionObject * fo;
         PyObject * v, * w,  * u; // 操作数1， 操作数2， 操作数3
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
             case ByteCode::LOAD_ATTR:
+                const_ptr = POP();
+                name_ptr = _frame->names()->get(op_arg);
+                PUSH(const_ptr->get_attr(name_ptr));
                 break;
             case ByteCode::STORE_ATTR:
                 break;

@@ -9,7 +9,6 @@ PyObject * len(ArrayList<PyObject*> * args)
     return args->get(0)->len();
 }
 
-
 NativeFunctionKlass * NativeFunctionKlass::instance = NULL;
 
 MethodKlass * MethodKlass::instance = NULL;
@@ -47,7 +46,8 @@ MethodKlass::MethodKlass(){
 
 MethodObject::MethodObject(FunctionObject * func, PyObject * owner){
     _owner = owner;
-    func = func;
+    _func = func;
+    set_klass(MethodKlass::get_instance());
 }
 
 FunctionKlass::FunctionKlass(){

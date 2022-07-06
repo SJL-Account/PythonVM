@@ -103,8 +103,11 @@ class MethodObject :public PyObject{
 public:
     MethodObject(FunctionObject * func, PyObject* owner);
     PyObject * _owner;
+    FunctionObject * _func;
     void set_owner(PyObject * x){_owner=x;};
+    void set_func(FunctionObject * x){_func=x;};
     PyObject * owner();
+    FunctionObject * func();
 };
 /*---------------- 方法 ----------------*/
 
