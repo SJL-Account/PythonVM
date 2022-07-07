@@ -16,8 +16,6 @@ public:
 
 };
 class PyDict:PyObject{
-private:
-    PyDictKlass* _klass;
 public:
     Map<PyObject*, PyObject*>* _map;
     PyDict();

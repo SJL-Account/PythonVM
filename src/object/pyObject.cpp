@@ -79,6 +79,18 @@ PyObject * PyObject::is_not(PyObject * x){
     return (this != x)? Universal::PyTrue: Universal::PyFalse;
 }
 
+PyObject * PyObject::in(PyObject * x){
+    return _klass->in(x, this);
+}
+
+PyObject * PyObject::not_in(PyObject * x){
+    return _klass->not_in(x, this);
+}
+
+PyObject * PyObject::subscr(PyObject * x){
+    return _klass->subscr(x, this);
+}
+
 bool PyObject::is_function() {
 
     return _klass == NativeFunctionKlass::get_instance();

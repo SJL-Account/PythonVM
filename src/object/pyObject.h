@@ -35,6 +35,9 @@ public:
     PyObject * greater_equal(PyObject * x);
     PyObject * is(PyObject * x);
     PyObject * is_not(PyObject * x);
+    PyObject * in(PyObject * x);
+    PyObject * not_in(PyObject * x);
+    PyObject * subscr(PyObject * x);
 };
 
 #endif //PYTHON_PYOBJECT_H

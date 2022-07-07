@@ -11,6 +11,7 @@ public:
 
     static const unsigned char POP_TOP = 1;
     static const unsigned char BINANY_ADD = 23;
+    static const unsigned char BINARY_SUBSCR = 25;
     static const unsigned char PRINT_ITEM = 71;
     static const unsigned char PRINT_NEW_LINE = 72;
     static const unsigned char BREAK_LOOP = 80;
@@ -24,6 +25,7 @@ public:
     static const unsigned char DELETE_GLOBAL =98;
     static const unsigned char LOAD_CONST = 100;
     static const unsigned char LOAD_NAME = 101;
+    static const unsigned char BUILD_LIST = 103;
     static const unsigned char LOAD_ATTR = 106;
     static const unsigned char COMPARE_OP = 107;
     static const unsigned char JUMP_FORWARD = 110;

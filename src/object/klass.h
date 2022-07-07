@@ -27,6 +27,9 @@ public:
     virtual void print(PyObject * x){};
     virtual PyObject* len(PyObject * x){return 0;};
     // 运算
+    virtual PyObject* subscr(PyObject * x, PyObject * y){return 0;};
+    virtual PyObject* in(PyObject * x, PyObject * y){return 0;};
+    virtual PyObject* not_in(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* less(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* less_equal(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* equal(PyObject * x, PyObject * y){return 0;};
@@ -38,6 +41,7 @@ public:
     virtual PyObject* mul(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* div(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* mod(PyObject * x, PyObject * y){return 0;};
+
 };
 
 #endif //PYTHON_KLASS_H

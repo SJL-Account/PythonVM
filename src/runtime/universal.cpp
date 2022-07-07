@@ -15,7 +15,6 @@ PyObject * Universal::PyNone = NULL;
 
 
 PyObject * upper(ArrayList<PyObject* > * args){
-
     PyString * str_obj =  (PyString * )(args->get(0));
     assert(str_obj->_klass == StringKlass::get_instance());
     for (int i=0; i<str_obj->length(); i++){

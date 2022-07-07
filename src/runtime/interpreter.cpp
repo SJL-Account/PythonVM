@@ -10,6 +10,7 @@
 #include "src/object/functionObject.h"
 #include "src/object/pyString.h"
 #include "src/object/pyInteger.h"
+#include "src/object/pyList.h"
 #include "src/runtime/universal.h"
 #include "src/runtime/interpreter.h"
 
@@ -88,14 +89,29 @@ void Interpreter::eval_frame() {
         if (have_arg){
             op_arg = _frame->get_op_arg();
         }
-        
+
         PyObject * const_ptr, * name_ptr, * code_ptr, * func_ptr, * reval_ptr;
         ArrayList<PyObject *> * arg_list(NULL);
+        PyList * list_ptr(NULL);
         FunctionObject * fo;
         PyObject * v, * w,  * u; // 操作数1， 操作数2， 操作数3
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::BINARY_SUBSCR:
+                v = POP();
+                w = POP();
+                PUSH(w->subscr(v));
+                break;
+            case ByteCode::BUILD_LIST:
+                if (list_ptr == NULL){
+                    list_ptr = new PyList(op_arg);
+                }
+                while ((op_arg--) > 0){
+                    list_ptr->set(op_arg, POP());
+                };
+                PUSH(list_ptr);
+                break;
             case ByteCode::LOAD_ATTR:
                 const_ptr = POP();
                 name_ptr = _frame->names()->get(op_arg);
@@ -183,11 +199,17 @@ void Interpreter::eval_frame() {
                         break;
                     case COMPAREOP ::GREATER_EQUAL:
                         break;
+                    case COMPAREOP ::IN:
+                        PUSH(v->in(w));
+                        break;
+                    case COMPAREOP ::NOT_IN:
+                        PUSH(v->not_in(w));
+                        break;
                     case COMPAREOP ::IS:
                         PUSH(w->is(v));
                         break;
                     case COMPAREOP ::IS_NOT:
-                        PUSH(w->is(v));
+                        PUSH(w->is_not(v));
                         break;
                     default:
                         throw op_arg;
