@@ -14,25 +14,37 @@ private:
     ListKlass();
 public:
     static Klass* get_instance();
-    virtual void print(PyObject * x);
-    virtual PyObject* add(PyObject * x, PyObject * y);
-    virtual PyObject* in(PyObject * x, PyObject * y);
-    virtual PyObject* not_in(PyObject * x, PyObject * y);
-    virtual PyObject* subscr(PyObject * x, PyObject * y);
+    void print(PyObject * x) override;
+    PyObject* len(PyObject * x) override;
+    PyObject* add(PyObject * x, PyObject * y) override;
+    PyObject* in(PyObject * x, PyObject * y) override;
+    PyObject* not_in(PyObject * x, PyObject * y) override;
+    PyObject* store_subscr(PyObject * x, PyObject * y, PyObject * z) override;
+    PyObject* del_subscr(PyObject * x, PyObject * y) override;
+    PyObject* subscr(PyObject * x, PyObject * y) override;
 
 };
 class PyList:public PyObject{
+private:
+    void register_method();
 public:
     ArrayList< PyObject* >* _list;
-    PyList(int n);
-    PyList(ArrayList< PyObject* > * _list);
-    void insert(int index, PyObject * x){_list->insert(index, x);};
-    PyObject * get(int index){return _list->get(index);};
-    void set(int index, PyObject * x){_list->set(index, x);};
+    // 构造函数
+    explicit PyList(int n);
+    explicit PyList(ArrayList< PyObject* > * _list);
+    // 属性
     int size(){return _list->size();};
     int length(){return _list->length();};
-    PyObject * pop(){return _list->pop();};
+    // 新增
+    void insert(int index, PyObject * x){_list->insert(index, x);};
     void push(PyObject * x){_list->push(x);};
+    // 修改
+    void set(int index, PyObject * x){_list->set(index, x);};
+    // 查找
+    PyObject * get(int index){return _list->get(index);};
+    // 删除
+    PyObject * pop(){return _list->pop();};
+
 };
 
 #endif //PYTHON_PYLIST_H

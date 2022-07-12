@@ -27,6 +27,8 @@ public:
     virtual void print(PyObject * x){};
     virtual PyObject* len(PyObject * x){return 0;};
     // 运算
+    virtual PyObject* store_subscr(PyObject * x, PyObject * y, PyObject * z){return 0;};
+    virtual PyObject* del_subscr(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* subscr(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* in(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* not_in(PyObject * x, PyObject * y){return 0;};

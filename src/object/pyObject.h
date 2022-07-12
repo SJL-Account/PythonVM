@@ -38,6 +38,8 @@ public:
     PyObject * in(PyObject * x);
     PyObject * not_in(PyObject * x);
     PyObject * subscr(PyObject * x);
+    PyObject * del_subscr(PyObject * x);
+    PyObject * store_subscr(PyObject * x, PyObject* y);
 };
 
 #endif //PYTHON_PYOBJECT_H

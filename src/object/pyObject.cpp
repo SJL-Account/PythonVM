@@ -80,15 +80,23 @@ PyObject * PyObject::is_not(PyObject * x){
 }
 
 PyObject * PyObject::in(PyObject * x){
-    return _klass->in(x, this);
+    return _klass->in(this, x);
 }
 
 PyObject * PyObject::not_in(PyObject * x){
-    return _klass->not_in(x, this);
+    return _klass->not_in(this, x);
 }
 
 PyObject * PyObject::subscr(PyObject * x){
-    return _klass->subscr(x, this);
+    return _klass->subscr(this, x);
+}
+
+PyObject * PyObject::store_subscr(PyObject * x, PyObject* y){
+    return _klass->store_subscr(this, x, y);
+}
+
+PyObject * PyObject::del_subscr(PyObject *x){
+    return _klass->del_subscr(this, x);
 }
 
 bool PyObject::is_function() {

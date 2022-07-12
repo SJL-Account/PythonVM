@@ -17,6 +17,7 @@ private:
 public:
     ArrayList(int n=8);
     void insert(int index, T t);
+    T delete_index(int index);
     T get(int index);
     void set(int index, T t);
     int size();
@@ -64,6 +65,17 @@ void ArrayList<T>::insert(int index, T t) {
         _array[index + 1] = _array[index];
     _array[index] = t;
     _length++;
+}
+
+template <typename T>
+T ArrayList<T>::delete_index(int index) {
+
+    assert(index < _length);
+    for (int i=index; i<_length; i++){
+        _array[i] = _array[i+1];
+    }
+    _length --;
+    return _array[index];
 }
 
 template <typename T>

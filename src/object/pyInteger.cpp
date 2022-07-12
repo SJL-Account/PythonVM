@@ -14,9 +14,7 @@ Klass* IntegerKlass::get_instance(){
     return instance;
 }
 
-IntegerKlass::IntegerKlass(){
-
-}
+IntegerKlass::IntegerKlass()= default;
 
 void IntegerKlass::print(PyObject * x) {
 

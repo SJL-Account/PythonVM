@@ -42,7 +42,7 @@ void Interpreter::build_frame(PyObject * x, ArrayList<PyObject *> * arg_list) {
         if (arg_list == NULL){
             arg_list = new ArrayList<PyObject*>(1);
         }
-        arg_list->push(((MethodObject*)x)->_owner);
+        arg_list->insert(0, ((MethodObject*)x)->_owner);
         build_frame(((MethodObject*)x)->_func, arg_list);
     }
 
@@ -98,6 +98,17 @@ void Interpreter::eval_frame() {
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::DELETE_SUBSCR:
+                v = POP();
+                w = POP();
+                w->del_subscr(v);
+                break;
+            case ByteCode::STORE_SUBSCR:
+                v = POP(); // 下标
+                w = POP(); // 对象
+                u = POP(); // 值
+                w->store_subscr(v, u);
+                break;
             case ByteCode::BINARY_SUBSCR:
                 v = POP();
                 w = POP();

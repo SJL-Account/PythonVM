@@ -34,17 +34,39 @@ void StringKlass::print(PyObject *x) {
 }
 
 PyObject *StringKlass::less(PyObject *x, PyObject *y) {
-    return Klass::less(x, y);
+    assert(x->_klass == this->get_instance());
+    assert(y->_klass == this->get_instance());
+    PyString* string_x = ((PyString*)x);
+    PyString* string_y = ((PyString*)y);
+    int x_len = string_x->length();
+    int y_len = string_y->length();
+    int len = x_len < y_len? x_len: y_len;
+    for(int i=0; i<len; i++){
+        if (string_x->value()[i] != string_y->value()[i]){
+            if (string_x->value()[i] > string_y->value()[i]){
+                return Universal::PyFalse;
+            }else{
+                return Universal::PyTrue;
+            }
+        }
+    }
+
+    if (x_len < y_len) {
+        return Universal::PyTrue;
+    }else{
+        return Universal::PyFalse;
+    }
 }
 
 PyObject *StringKlass::less_equal(PyObject *x, PyObject *y) {
-    return Klass::less_equal(x, y);
+    return Klass::less_equal(x,y);
+
 }
 
 PyObject *StringKlass::equal(PyObject *x, PyObject *y) {
 
-    assert(x->_klass == this->instance);
-    assert(y->_klass == this->instance);
+    assert(x->_klass == this->get_instance());
+    assert(y->_klass == this->get_instance());
 
     if (x == NULL || y == NULL){
         return Universal::PyFalse;
