@@ -23,6 +23,7 @@ public:
     int size();
     int length();
     T pop();
+    T top();
     void push(T t);
     void print();
 };
@@ -91,6 +92,12 @@ void ArrayList<T>::expand(){
 template <typename T>
 T ArrayList<T>::pop(){
     return  _array[--_length];
+    // raise exception
+}
+
+template <typename T>
+T ArrayList<T>::top(){
+    return  _array[_length-1];
     // raise exception
 }
 

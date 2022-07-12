@@ -12,11 +12,16 @@ private:
 public:
     static IterKlass * instance;
     static Klass * get_instance();
+    PyObject* next(PyObject * x) override;
+
 };
 
 class PyIter: public PyObject {
 
-
+public:
+    PyObject * iter_obj;
+    int iter_cnt{};
+    explicit PyIter(PyObject * iter_obj);
 
 };
 

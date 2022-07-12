@@ -14,6 +14,7 @@ public:
     static const unsigned char BINARY_SUBSCR = 25;
     static const unsigned char STORE_SUBSCR = 60;
     static const unsigned char DELETE_SUBSCR = 61;
+    static const unsigned char GET_ITER = 68;
     static const unsigned char PRINT_ITEM = 71;
     static const unsigned char PRINT_NEW_LINE = 72;
     static const unsigned char BREAK_LOOP = 80;
@@ -21,6 +22,7 @@ public:
     static const unsigned char POP_BLOCK = 87;
     static const unsigned char HAVE_ARG = 90;
     static const unsigned char STORE_NAME = 90;
+    static const unsigned char FOR_ITER = 93;
     static const unsigned char STORE_ATTR = 95;
     static const unsigned char DELETE_ATTR =96;
     static const unsigned char STORE_GLOBAL =97;

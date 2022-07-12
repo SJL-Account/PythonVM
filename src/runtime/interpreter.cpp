@@ -5,6 +5,7 @@
 #include "src/runtime/block.h"
 #include "src/runtime/frameObject.h"
 #include "src/container/map.h"
+#include "src/object/pyIter.h"
 #include "src/code/codeObject.h"
 #include "src/code/bytecode.h"
 #include "src/object/functionObject.h"
@@ -16,6 +17,7 @@
 
 #define PUSH(x) _frame->stack()->push(x)
 #define POP() _frame->stack()->pop()
+#define TOP() _frame->stack()->top()
 #define LEVEL() _frame->stack()->length()
 
 Interpreter::Interpreter() {
@@ -90,7 +92,11 @@ void Interpreter::eval_frame() {
             op_arg = _frame->get_op_arg();
         }
 
-        PyObject * const_ptr, * name_ptr, * code_ptr, * func_ptr, * reval_ptr;
+        PyObject* const_ptr,
+                * name_ptr,
+                * code_ptr,
+                * func_ptr,
+                * reval_ptr;
         ArrayList<PyObject *> * arg_list(NULL);
         PyList * list_ptr(NULL);
         FunctionObject * fo;
@@ -98,6 +104,19 @@ void Interpreter::eval_frame() {
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::GET_ITER:
+                v=POP();
+                PUSH(new PyIter(v));
+                break;
+            case ByteCode::FOR_ITER:
+                v = TOP();
+                u = (v->next());
+                if (u == NULL){
+                    _frame->pc += op_arg;
+                    break;
+                }
+                PUSH(u);
+                break;
             case ByteCode::DELETE_SUBSCR:
                 v = POP();
                 w = POP();

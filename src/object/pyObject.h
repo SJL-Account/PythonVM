@@ -40,6 +40,7 @@ public:
     PyObject * subscr(PyObject * x);
     PyObject * del_subscr(PyObject * x);
     PyObject * store_subscr(PyObject * x, PyObject* y);
+    PyObject * next();
 };
 
 #endif //PYTHON_PYOBJECT_H
