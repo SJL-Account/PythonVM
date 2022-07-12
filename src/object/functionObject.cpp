@@ -1,19 +1,23 @@
 
 // Created by sunjinlong01 on 2022/6/24.
 
-
 #include "src/object/functionObject.h"
+
 
 PyObject * len(ArrayList<PyObject*> * args)
 {
     return args->get(0)->len();
 }
 
+
 NativeFunctionKlass * NativeFunctionKlass::instance = NULL;
+
 
 MethodKlass * MethodKlass::instance = NULL;
 
+
 FunctionKlass * FunctionKlass::instance = NULL;
+
 
 Klass* NativeFunctionKlass::get_instance(){
     if (instance == NULL){
@@ -22,12 +26,14 @@ Klass* NativeFunctionKlass::get_instance(){
     return instance;
 }
 
+
 Klass* FunctionKlass::get_instance(){
     if (instance == NULL){
         instance = new FunctionKlass();
     }
     return instance;
 }
+
 
 Klass* MethodKlass::get_instance(){
     if (instance == NULL){
@@ -36,25 +42,38 @@ Klass* MethodKlass::get_instance(){
     return instance;
 }
 
-NativeFunctionKlass::NativeFunctionKlass(){
 
-}
+NativeFunctionKlass::NativeFunctionKlass()= default;
 
-MethodKlass::MethodKlass(){
 
-}
+MethodKlass::MethodKlass()= default;
 
-MethodObject::MethodObject(FunctionObject * func, PyObject * owner){
+/*
+ * 构造函数：函数对象构造
+ * func: function object
+ * owner: 调用者对象
+ */
+MethodObject::MethodObject(FunctionObject * func, PyObject * owner) : PyObject(){
     _owner = owner;
     _func = func;
     set_klass(MethodKlass::get_instance());
 }
 
-FunctionKlass::FunctionKlass(){
 
+PyObject *MethodObject::owner() {
+    return _owner;
 }
 
-FunctionObject::FunctionObject(){
+
+FunctionObject *MethodObject::func() {
+    return _func;
+}
+
+
+FunctionKlass::FunctionKlass()= default;
+
+
+FunctionObject::FunctionObject() : PyObject(){
     _func_code = NULL;
     _func_name = NULL;
     _func_flag = 0;
@@ -62,7 +81,10 @@ FunctionObject::FunctionObject(){
     set_klass(FunctionKlass::get_instance());
 }
 
-FunctionObject::FunctionObject(PyObject * x){
+/*
+ * 构造函数: 代码片段构造
+ */
+FunctionObject::FunctionObject(PyObject * x) : PyObject(){
     _func_code = ((CodeObject *) x);
     _func_name = _func_code->_co_name;
     _func_flag = _func_code->_flag;
@@ -70,7 +92,10 @@ FunctionObject::FunctionObject(PyObject * x){
     set_klass(FunctionKlass::get_instance());
 }
 
-FunctionObject::FunctionObject(NativeFuncPtr nf_ptr){
+/*
+ * 构造函数：native方法构造
+ */
+FunctionObject::FunctionObject(NativeFuncPtr nf_ptr) : PyObject(){
     _func_code = NULL;
     _func_name = NULL;
     _func_flag = 0;

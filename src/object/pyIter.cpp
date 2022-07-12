@@ -8,6 +8,7 @@
 
 IterKlass* IterKlass::instance=NULL;
 
+
 Klass *IterKlass::get_instance() {
     if (instance==NULL){
         instance = new IterKlass();
@@ -15,6 +16,9 @@ Klass *IterKlass::get_instance() {
     return instance;
 }
 
+/*
+ * 迭代器方法
+ */
 PyObject *IterKlass::next(PyObject *x) {
 
     assert(x->_klass==this->get_instance());
@@ -39,7 +43,9 @@ PyObject *IterKlass::next(PyObject *x) {
 
 }
 
+
 IterKlass::IterKlass() = default;
+
 
 PyIter::PyIter(PyObject * iter_obj) : PyObject() {
     this->iter_obj = iter_obj;

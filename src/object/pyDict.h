@@ -15,6 +15,7 @@ public:
     static Klass* get_instance();
 
 };
+
 class PyDict:PyObject{
 public:
     Map<PyObject*, PyObject*>* _map;

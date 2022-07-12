@@ -53,15 +53,15 @@ class FunctionObject:public PyObject{
 
 public:
     // 局部变量表
-    Map<PyObject *, PyObject *> * _local;
+    Map<PyObject *, PyObject *> * _local{};
     // 全局变量表
     Map<PyObject *, PyObject *> * _global;
     // 内建变量表
-    Map<PyObject *, PyObject *> * _build;
+    Map<PyObject *, PyObject *> * _build{};
     // 参数表
-    ArrayList<PyObject *> * _fast;
+    ArrayList<PyObject *> * _fast{};
     // 默认参数表
-    ArrayList<PyObject *> * _default;
+    ArrayList<PyObject *> * _default{};
     // 函数的code对象
     CodeObject * _func_code;
     // 函数名
@@ -69,11 +69,11 @@ public:
     // 函数标记位
     int _func_flag;
     // native 函数指针
-    NativeFuncPtr _nf_ptr;
+    NativeFuncPtr _nf_ptr{};
     // 构造
     FunctionObject();
-    FunctionObject(PyObject * x);
-    FunctionObject(NativeFuncPtr nf_ptr);
+    explicit FunctionObject(PyObject * x);
+    explicit FunctionObject(NativeFuncPtr nf_ptr);
     // 属性
     void set_global(Map<PyObject*, PyObject *> * x ){_global = x;};
     void set_default(ArrayList<PyObject *> * x){_default = x;};
@@ -98,16 +98,20 @@ public:
     static Klass *get_instance();
 };
 
+
 class MethodObject :public PyObject{
 
 public:
+    // 构造
     MethodObject(FunctionObject * func, PyObject* owner);
+    // 属性
     PyObject * _owner;
     FunctionObject * _func;
     void set_owner(PyObject * x){_owner=x;};
     void set_func(FunctionObject * x){_func=x;};
     PyObject * owner();
     FunctionObject * func();
+    // 功能
 };
 /*---------------- 方法 ----------------*/
 

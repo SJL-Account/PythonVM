@@ -83,7 +83,6 @@ PyObject *StringKlass::equal(PyObject *x, PyObject *y) {
     return Universal::PyTrue;
 }
 
-
 PyObject *StringKlass::not_equal(PyObject *x, PyObject *y) {
     return Klass::not_equal(x, y);
 }

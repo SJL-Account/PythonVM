@@ -15,7 +15,6 @@ private:
     static IntegerKlass * instance;
 public:
     static Klass* get_instance();
-    // TODO 为什么是虚方法
     virtual void print(PyObject * x);
     virtual PyObject* less(PyObject * x, PyObject * y);
     virtual PyObject* less_equal(PyObject * x, PyObject * y);
