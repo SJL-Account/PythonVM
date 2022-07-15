@@ -1,12 +1,14 @@
 //
 // Created by sunjinlong01 on 2022/7/7.
 //
+#include "src/object/pyIter.h"
 #include "src/object/pyObject.h"
 #include "src/object/klass.h"
 #include "src/container/arrayList.h"
 
 #ifndef PYTHON_PYLIST_H
 #define PYTHON_PYLIST_H
+
 
 class ListKlass:Klass{
 private:
@@ -22,9 +24,12 @@ public:
     PyObject* store_subscr(PyObject * x, PyObject * y, PyObject * z) override;
     PyObject* del_subscr(PyObject * x, PyObject * y) override;
     PyObject* subscr(PyObject * x, PyObject * y) override;
+    PyObject* iter(PyObject * x) override;
+
 
 };
-class PyList:public PyObject{
+
+class PyList: public PyObject{
 private:
     void register_method();
 public:
@@ -44,6 +49,29 @@ public:
     PyObject * get(int index){return _list->get(index);};
     // 删除
     PyObject * pop(){return _list->pop();};
+
+};
+
+/*---------------List Iter---------------*/
+
+class ListIterKlass: public Klass{
+private:
+    static ListIterKlass * instance;
+    ListIterKlass();
+public:
+    static Klass* get_instance();
+
+};
+
+class ListIter: public PyObject{
+private:
+    PyObject * _owner;
+    int _index;
+public:
+    ListIter(PyObject * owner);
+    PyObject * owner(){return _owner;};
+    int index(){return _index;};
+    void inc_index(){_index++;};
 
 };
 

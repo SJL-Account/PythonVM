@@ -106,16 +106,17 @@ void Interpreter::eval_frame() {
         switch (op_code) {
             case ByteCode::GET_ITER:
                 v=POP();
-                PUSH(new PyIter(v));
+                PUSH(v->iter());
                 break;
             case ByteCode::FOR_ITER:
                 v = TOP();
-                u = (v->next());
-                if (u == NULL){
+                u = (v->get_attr(new PyString("next")));
+                build_frame(u, arg_list);
+                if (TOP() == NULL){
                     _frame->pc += op_arg;
+                    POP();
                     break;
                 }
-                PUSH(u);
                 break;
             case ByteCode::DELETE_SUBSCR:
                 v = POP();

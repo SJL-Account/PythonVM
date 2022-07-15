@@ -24,7 +24,6 @@ public:
     void put(PyObject* k, PyObject* v){_map->put(k, v);};
     PyObject * remove(PyObject * k){return _map->remove(k);};
     PyObject * get(PyObject * k){return _map->get(k);};
-
 };
 
 #endif //PYTHON_PYDICT_H

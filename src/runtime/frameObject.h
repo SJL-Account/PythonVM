@@ -21,6 +21,8 @@ public:
     ArrayList<PyObject *> * _stack;
     // 符号表
     ArrayList<PyObject *> * _names;
+    // 变量符号表
+    ArrayList<PyObject *> * _varnames;
     // 常量表
     ArrayList<PyObject *> * _consts;
     // 嵌套栈
@@ -39,11 +41,14 @@ public:
     FrameObject(CodeObject * code);
     FrameObject(FunctionObject * func);
     FrameObject(FunctionObject * func, ArrayList<PyObject* > * args);
+    FrameObject(FunctionObject * func, ArrayList<PyObject* > * args, int op_arg);
     // 属性
     void set_pc(int p_pc){ pc = p_pc;};
-    void set_sender(FrameObject * sender){_sender = sender;};
     int get_pc(){return pc;};
+    // 帧相关
+    void set_sender(FrameObject * sender){_sender = sender;};
     bool is_first_frame(){ return  (_sender == NULL);};
+    // 数据表相关
     ArrayList<PyObject *> * names(){return _names;};
     ArrayList<PyObject *> * consts(){return _consts;};
     ArrayList<PyObject *> * stack(){return _stack;};

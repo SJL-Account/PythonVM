@@ -64,9 +64,65 @@ FrameObject::FrameObject(FunctionObject * func, ArrayList<PyObject* > * args){
         _fast->set(i, args->pop());
     }
     pc = 0;
+
     // 从上层模块继承下来的global变量表
     _global = func->global();
 }
+
+//FrameObject::FrameObject(FunctionObject * func, ArrayList<PyObject* > * args, int op_arg){
+//    CodeObject * code = func->_func_code;
+//    int stack_size = code->_stack_size;
+//    int flag = code->_flag;
+//    byte_codes = code->_bytecodes;
+//    _names  = code->_names;
+//    _consts = code->_consts;
+//    _varnames = code->_varnames;
+//    _stack  = new ArrayList<PyObject*>(stack_size);
+//    _loop_stack = new ArrayList<Block*>();
+//    _local  = new Map<PyObject*, PyObject*>();
+//    _global = new Map<PyObject*, PyObject*>();
+//
+//    // 局部参数数量
+//    int fast_cnt = code->_argcount;
+//    // 局部参数表
+//    _fast   = new ArrayList<PyObject *>();
+//
+//    // 默认参数表
+//    _default = func->get_default();
+//    // 默认参数数量
+//    int default_cnt = func->get_default()->length();
+//    // 参数数量
+//    int argcnt = code->_argcount;
+//    // 位置扩展参数参数
+//    // int na = op_arg >> 0xff;
+//    // 键扩展参数数量
+//    // int nk = op_arg >> 8;
+//    // 是否存在位置扩展参数
+//    bool existArgs = (flag & 0x4);
+//    // 是否存在键扩展参数
+//    bool existKwArgs = (flag & 0x8);
+//
+//    // default构造fast表
+//    while ((default_cnt--) > 0){
+//        _fast->set((--fast_cnt), _default->pop());
+//    }
+//
+//    // 加载位置扩展参数
+//    if (na > argcnt){
+//
+//    }else{
+//        for(int i=0; i< argcnt; i++){
+//            _fast->set(i, args->pop());
+//        }
+//    }
+//
+//    //
+//
+//    pc = 0;
+//    // 从上层模块继承下来的global变量表
+//    _global = func->global();
+//}
+//
 
 short FrameObject::get_op_arg() {
 

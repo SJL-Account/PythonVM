@@ -77,7 +77,7 @@ PyObject * index(ArrayList<PyObject* >* args){
     return list->get(index);
 }
 
-
+/*-----------------List----------------------*/
 
 ListKlass * ListKlass::instance = NULL;
 
@@ -162,6 +162,11 @@ PyObject *ListKlass::store_subscr(PyObject* x, PyObject* y, PyObject* z) {
 
 }
 
+PyObject* ListKlass::iter(PyObject * x){
+
+    return new ListIter(x);
+}
+
 void ListKlass::print(PyObject *x) {
 
     assert(x->_klass == this->get_instance());
@@ -182,7 +187,6 @@ Klass* ListKlass::get_instance(){
     return instance;
 }
 
-
 PyList::PyList(int n) : PyObject() {
 
     _list = new ArrayList<PyObject *>(n);
@@ -191,6 +195,11 @@ PyList::PyList(int n) : PyObject() {
     register_method();
 
 }
+
+//PyObject* PyList::iter() {
+//
+//    return new ListIter();
+//}
 
 PyList::PyList(ArrayList<PyObject*>* x) : PyObject() {
     _list = x;
@@ -211,6 +220,50 @@ void PyList::register_method() {
 }
 
 
+/*-------------------List Iter----------------------*/
+
+
+ListIter::ListIter(PyObject * owner){
+    _index = 0;
+    _owner = owner;
+    set_klass(ListIterKlass::get_instance());
+
+}
+
+ListIterKlass * ListIterKlass::instance= NULL;
+
+PyObject * list_next(ArrayList<PyObject *> * args) {
+
+    ListIter* list_iter = ((ListIter*) args->get(0));
+    assert(list_iter->_klass==ListIterKlass::get_instance());
+    PyObject* iter_obj = list_iter->owner();
+    PyObject* iter_item(NULL);
+    assert (iter_obj->_klass == ListKlass::get_instance());
+    int len = ((PyList*)iter_obj)->length();
+    iter_item = ((PyList*)iter_obj)->get(list_iter->index());
+    if (list_iter->index() < len){
+        list_iter->inc_index();
+        return iter_item;
+    }else{
+        return NULL;
+    }
+}
+
+ListIterKlass::ListIterKlass(){
+
+    PyDict * attr_dict = new PyDict();
+    attr_dict->put(new PyString("next"), new FunctionObject(list_next));
+    set_attr_dict(attr_dict);
+    set_name(new PyString("list_iter"));
+};
+
+Klass *ListIterKlass::get_instance() {
+
+    if(instance==NULL){
+        instance = new ListIterKlass();
+    }
+    return instance;
+}
 
 
 

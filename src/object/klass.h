@@ -27,7 +27,6 @@ public:
     virtual void print(PyObject * x){};
     virtual PyObject* len(PyObject * x){return 0;};
     // 运算
-    virtual PyObject* next(PyObject * x){return 0;}
     virtual PyObject* store_subscr(PyObject * x, PyObject * y, PyObject * z){return 0;};
     virtual PyObject* del_subscr(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* subscr(PyObject * x, PyObject * y){return 0;};
@@ -44,6 +43,7 @@ public:
     virtual PyObject* mul(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* div(PyObject * x, PyObject * y){return 0;};
     virtual PyObject* mod(PyObject * x, PyObject * y){return 0;};
+    virtual PyObject* iter(PyObject * x){return 0;};
 
 };
 

@@ -12,7 +12,6 @@ private:
 public:
     static IterKlass * instance;
     static Klass * get_instance();
-    PyObject* next(PyObject * x) override;
 
 };
 

@@ -104,6 +104,6 @@ bool PyObject::is_function() {
     return _klass == NativeFunctionKlass::get_instance();
 }
 
-PyObject * PyObject::next() {
-    return _klass->next(this);
+PyObject * PyObject::iter() {
+    return _klass->iter(this);
 }
