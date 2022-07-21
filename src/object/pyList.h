@@ -35,6 +35,7 @@ private:
 public:
     ArrayList< PyObject* >* _list;
     // 构造函数
+    explicit PyList();
     explicit PyList(int n);
     explicit PyList(ArrayList< PyObject* > * _list);
     // 属性

@@ -35,9 +35,12 @@ public:
     V remove(K k);
     V get(K k);
     K get_key(int index);
+    K get_value(int index);
     PyObject * has_key(K v);
     int index(K k);
     MapEntry<K, V> * entries() {return _entries;}
+    int length() {return _length;};
+    int size() {return _size;};
 };
 
 
@@ -119,6 +122,12 @@ template <typename K, typename V>
 K Map<K, V>::get_key(int index){
 
     return _entries[index].get_k();
+}
+
+template <typename K, typename V>
+K Map<K, V>::get_value(int index) {
+
+    return _entries[index].get_v();
 }
 
 template <typename K, typename V>

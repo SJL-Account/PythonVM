@@ -187,6 +187,15 @@ Klass* ListKlass::get_instance(){
     return instance;
 }
 
+PyList::PyList() : PyObject() {
+
+    _list = new ArrayList<PyObject *>();
+    set_klass(ListKlass::get_instance());
+    // 注册方法
+    register_method();
+
+}
+
 PyList::PyList(int n) : PyObject() {
 
     _list = new ArrayList<PyObject *>(n);
@@ -195,11 +204,6 @@ PyList::PyList(int n) : PyObject() {
     register_method();
 
 }
-
-//PyObject* PyList::iter() {
-//
-//    return new ListIter();
-//}
 
 PyList::PyList(ArrayList<PyObject*>* x) : PyObject() {
     _list = x;

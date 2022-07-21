@@ -12,6 +12,7 @@
 #include "src/object/pyString.h"
 #include "src/object/pyInteger.h"
 #include "src/object/pyList.h"
+#include "src/object/pyDict.h"
 #include "src/runtime/universal.h"
 #include "src/runtime/interpreter.h"
 
@@ -99,11 +100,22 @@ void Interpreter::eval_frame() {
                 * reval_ptr;
         ArrayList<PyObject *> * arg_list(NULL);
         PyList * list_ptr(NULL);
+        PyDict * dict_ptr(NULL);
         FunctionObject * fo;
         PyObject * v, * w,  * u; // 操作数1， 操作数2， 操作数3
         PyInteger * lhs, * rhs;  // 左表达式，右表达式
         Block * b; // 当前block信息
         switch (op_code) {
+            case ByteCode::BUILD_MAP:
+                dict_ptr = new PyDict();
+                PUSH(dict_ptr);
+                break;
+            case ByteCode::STORE_MAP:
+                v = POP(); // key
+                w = POP(); // value
+                u = TOP(); //
+                ((PyDict *)u)->put(v, w);
+                break;
             case ByteCode::GET_ITER:
                 v=POP();
                 PUSH(v->iter());
