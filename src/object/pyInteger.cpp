@@ -140,6 +140,11 @@ PyObject * IntegerKlass::greater_equal(PyObject *x, PyObject *y) {
     return Universal::PyFalse;
 }
 
+void IntegerKlass::init() {
+
+    set_super(ObjectKlass::get_instance());
+}
+
 PyInteger::PyInteger(int value){
     _value = value;
     set_klass(IntegerKlass::get_instance());

@@ -115,6 +115,10 @@ PyObject *StringKlass::mod(PyObject *x, PyObject *y) {
     return Klass::mod(x, y);
 }
 
+void StringKlass::init() {
+    set_super(ObjectKlass::get_instance());
+}
+
 PyString::PyString(const char *s) {
     int m = strlen(s);
     _length = m;

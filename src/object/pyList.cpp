@@ -7,6 +7,8 @@
 #include "src/object/pyDict.h"
 #include "src/object/pyString.h"
 #include "src/object/functionObject.h"
+#include "src/object/type.h"
+#include "klass.h"
 
 // 反转
 PyObject * reverse(ArrayList<PyObject* >* args){
@@ -81,7 +83,9 @@ PyObject * index(ArrayList<PyObject* >* args){
 
 ListKlass * ListKlass::instance = NULL;
 
-ListKlass::ListKlass() = default;
+ListKlass::ListKlass(){
+
+};
 
 PyObject* ListKlass::add(PyObject * x, PyObject * y){
 
@@ -185,6 +189,22 @@ Klass* ListKlass::get_instance(){
         instance = new ListKlass();
     }
     return instance;
+}
+
+void ListKlass::init() {
+
+    auto * attr_dict = new PyDict();
+    attr_dict->put(new PyString("reverse"), new FunctionObject(reverse));
+    attr_dict->put(new PyString("append"), new FunctionObject(append));
+    attr_dict->put(new PyString("extend"), new FunctionObject(extend));
+    attr_dict->put(new PyString("sort"), new FunctionObject(sort));
+    attr_dict->put(new PyString("index"), new FunctionObject(index));
+    set_attr_dict(attr_dict);
+
+    set_super(ObjectKlass::get_instance());
+    TypeObject* tob = new TypeObject();
+    tob->set_ownklass(this);
+
 }
 
 PyList::PyList() : PyObject() {

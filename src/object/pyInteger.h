@@ -15,6 +15,7 @@ private:
     static IntegerKlass * instance;
 public:
     static Klass* get_instance();
+    virtual void init();
     virtual void print(PyObject * x);
     virtual PyObject* less(PyObject * x, PyObject * y);
     virtual PyObject* less_equal(PyObject * x, PyObject * y);

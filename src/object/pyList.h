@@ -16,6 +16,7 @@ private:
     ListKlass();
 public:
     static Klass* get_instance();
+    void init() override ;
     void print(PyObject * x) override;
     PyObject* len(PyObject * x) override;
     PyObject* add(PyObject * x, PyObject * y) override;
@@ -25,7 +26,6 @@ public:
     PyObject* del_subscr(PyObject * x, PyObject * y) override;
     PyObject* subscr(PyObject * x, PyObject * y) override;
     PyObject* iter(PyObject * x) override;
-
 
 };
 

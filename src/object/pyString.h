@@ -13,6 +13,7 @@ private:
 public:
     static Klass* get_instance();
     // 功能
+    virtual void init();
     virtual void print(PyObject * x);
     // 运算
     virtual PyObject* len(PyObject * x);
