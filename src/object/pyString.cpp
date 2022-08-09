@@ -5,6 +5,7 @@
 #include "src/object/pyObject.h"
 #include "src/object/pyString.h"
 #include "src/object/pyInteger.h"
+#include "src/object/type.h"
 
 StringKlass * StringKlass::instance = NULL;
 
@@ -116,7 +117,11 @@ PyObject *StringKlass::mod(PyObject *x, PyObject *y) {
 }
 
 void StringKlass::init() {
+
+    TypeObject* tob = new TypeObject();
+    tob->set_ownklass(this);
     set_super(ObjectKlass::get_instance());
+    set_name(new PyString("string"));
 }
 
 PyString::PyString(const char *s) {

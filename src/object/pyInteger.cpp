@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include "src/object/pyString.h"
 #include "src/object/pyObject.h"
 #include "src/object/pyInteger.h"
 #include "src/runtime/universal.h"
@@ -141,8 +142,8 @@ PyObject * IntegerKlass::greater_equal(PyObject *x, PyObject *y) {
 }
 
 void IntegerKlass::init() {
-
     set_super(ObjectKlass::get_instance());
+    set_name(new PyString("int"));
 }
 
 PyInteger::PyInteger(int value){

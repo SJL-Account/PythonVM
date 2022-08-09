@@ -78,7 +78,6 @@ void Universal::genesis() {
     // 对象类型对象 和 对象类型建立关系
     ob_type_ob->set_ownklass(ob_klass);
 
-
     // 类型的类型对象
     TypeObject * type_ob = new TypeObject();
     // 类型类型
@@ -90,6 +89,7 @@ void Universal::genesis() {
     // 类型类型的 父类为 对象类型
     type_klass->set_super(ob_klass);
 
+    // 初始化各个类型
     ListKlass::get_instance()->init();
     IntegerKlass::get_instance()->init();
     StringKlass::get_instance()->init();
